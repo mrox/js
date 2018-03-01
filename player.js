@@ -71,7 +71,7 @@ function Player(input, enableMatching=false)
     this.avg = 0;
     this.xrate = 1;
     this.yrate = 1;
-
+    // this.socket = 
     this.en_url = input.en_url;
     this.ws_url = input.ws_url;
     if (input.canvas) {
@@ -87,7 +87,8 @@ function Player(input, enableMatching=false)
         this.cropLayer = document.getElementById('cropcanvas');
     }
     this.display = new WebGLCanvas(this.mainLayer);
-    this.decoder = new Worker('js/decoder/decoder.js');
+    // this.decoder = new Worker('js/decoder/decoder.js');
+    this.decoder = new Worker('decoder.js');
     this.mixer = new Mixer();
     this.decoder.addEventListener('message', function(e){
         self.decoderCallback(e);
@@ -99,7 +100,7 @@ function Player(input, enableMatching=false)
     };
 
     if (enableMatching) {
-        this.socket = io.connect(this.en_url);
+        this.socket = io(this.en_url);
         this.socket.on('engineInfo', function(e){
             // console.log(e)
             self.pushEngineInfo(e);
